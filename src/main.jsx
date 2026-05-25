@@ -47,7 +47,7 @@ function DeviceSelector() {
 }
 
 function DotIcon({ variant }) {
-  return <div className={`dock-led-icon ${variant}`} aria-hidden="true">{variant === "minus" ? "==" : "+"}</div>;
+  return <div className={`dock-led-icon ${variant}`} aria-hidden="true">{variant === "minus" ? "=" : "+"}</div>;
 }
 
 function BottomControl({ intensity }) {
@@ -118,8 +118,7 @@ function FireplaceApp() {
       "--fire-scale": 0.86 + intensity * 0.34,
       "--fire-rise": `${10 + intensity * 15}%`,
       "--fire-speed": `${7.5 - intensity * 3.2}s`,
-      "--glow-opacity": 0.55 + intensity * 0.34,
-      "--panel-scale": 1 + intensity * 0.018
+      "--glow-opacity": 0.55 + intensity * 0.34
     }),
     [intensity]
   );
