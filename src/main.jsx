@@ -15,7 +15,9 @@ function TemperatureRail({ temperature }) {
     <div className="temperature-drum" aria-label={`Temperature ${temperature} degrees`}>
       <div
         className="temperature-drum-track"
-        style={{ transform: `translate3d(0, calc(50% - ${activeIndex} * var(--temperature-step)), 0)` }}
+        style={{
+          transform: `translate3d(0, calc(50% - (${activeIndex} + 0.5) * var(--temperature-step)), 0)`
+        }}
       >
         {values.map((value, index) => {
           const distance = Math.abs(index - activeIndex);
@@ -134,9 +136,6 @@ function FireplaceApp() {
     >
       <section className="fire-panel" aria-label="Fireplace control">
         <div className="fire-gradient" />
-        <div className="fire-blob blob-red" />
-        <div className="fire-blob blob-gold" />
-        <div className="fire-blob blob-ember" />
         <div className="top-vignette" />
         <TemperatureRail temperature={temperature} />
       </section>

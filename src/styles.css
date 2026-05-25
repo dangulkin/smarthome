@@ -1,4 +1,4 @@
-@import url("https://fonts.cdnfonts.com/css/led-dot-matrix");
+@import url("https://db.onlinewebfonts.com/c/dc47e430634596cb7e61ff294069edde?family=LED+Counter+7+V2");
 
 :root {
   color-scheme: dark;
@@ -56,7 +56,6 @@ body {
 }
 
 .fire-gradient,
-.fire-blob,
 .top-vignette {
   position: absolute;
   inset: 0;
@@ -64,53 +63,10 @@ body {
 }
 
 .fire-gradient {
-  transform: scale(calc(1.02 + var(--heat) * 0.018));
-  transform-origin: center center;
   background:
-    radial-gradient(circle at 63% calc(87% - var(--fire-rise)), rgb(255 239 188 / 0.94), rgb(255 173 24 / 0.78) 19%, rgb(255 81 10 / 0.4) 43%, transparent 67%),
-    radial-gradient(circle at 20% 70%, rgb(255 15 14 / 0.88), rgb(255 45 8 / 0.58) 35%, transparent 66%),
-    radial-gradient(circle at 79% 31%, rgb(255 99 15 / 0.44), rgb(105 23 11 / 0.26) 45%, transparent 70%),
-    linear-gradient(180deg, #0d1010 0%, #20100b 25%, #6d170c 48%, #ff270e 67%, #ff8309 83%, #ffd479 100%);
-  filter: saturate(calc(1.03 + var(--heat) * 0.45)) brightness(calc(0.9 + var(--heat) * 0.2));
-  animation: gradient-drift var(--fire-speed) ease-in-out infinite alternate;
-}
-
-.fire-blob {
-  border-radius: 999px;
-  mix-blend-mode: screen;
-  filter: blur(42px);
-  opacity: var(--glow-opacity);
-  transform: translate3d(0, 0, 0) scale(var(--fire-scale));
-  will-change: transform, opacity;
-}
-
-.blob-red {
-  width: 82vw;
-  height: 82vw;
-  left: -26vw;
-  bottom: 7vh;
-  background: radial-gradient(circle, #ff0d0d 0%, #ff4c08 42%, transparent 72%);
-  animation: red-pulse calc(var(--fire-speed) * 0.82) ease-in-out infinite alternate;
-}
-
-.blob-gold {
-  width: 96vw;
-  height: 84vw;
-  left: 22vw;
-  bottom: -8vh;
-  background: radial-gradient(circle, #fff4c5 0%, #ffb21a 26%, #ff5d0b 58%, transparent 76%);
-  filter: blur(48px);
-  animation: gold-pulse calc(var(--fire-speed) * 0.72) ease-in-out infinite alternate-reverse;
-}
-
-.blob-ember {
-  width: 72vw;
-  height: 72vw;
-  right: -17vw;
-  top: 28vh;
-  background: radial-gradient(circle, rgb(255 96 12 / 0.9), rgb(111 20 8 / 0.5) 43%, transparent 72%);
-  filter: blur(58px);
-  animation: ember-float calc(var(--fire-speed) * 1.14) ease-in-out infinite alternate;
+    radial-gradient(circle at 62% 66%, rgb(255 236 177 / 0.72), rgb(255 176 29 / 0.36) 20%, transparent 45%),
+    radial-gradient(circle at 21% 63%, rgb(255 20 12 / 0.62), rgb(255 48 8 / 0.38) 35%, transparent 68%),
+    linear-gradient(180deg, #7a310d 0%, #b34e0b 25%, #f36e08 50%, #ff8106 74%, #ff7a03 100%);
 }
 
 .top-vignette {
@@ -136,7 +92,7 @@ body {
 
 .temperature-drum-track {
   position: absolute;
-  top: calc(var(--temperature-step) / -2);
+  top: 0;
   right: 0;
   display: grid;
   gap: 0;
@@ -151,7 +107,7 @@ body {
   align-items: center;
   justify-content: flex-end;
   color: rgb(255 255 255 / 0.3);
-  font-family: "LED Dot-Matrix", "LED Dot Matrix", monospace;
+  font-family: "LED Counter 7 V2", "LED Dot-Matrix", "LED Dot Matrix", monospace;
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0;
@@ -260,7 +216,7 @@ body {
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-family: "LED Dot-Matrix", "LED Dot Matrix", monospace;
+  font-family: "LED Counter 7 V2", "LED Dot-Matrix", "LED Dot Matrix", monospace;
   font-size: 60px;
   font-weight: 400;
   line-height: 1;
@@ -279,42 +235,6 @@ body {
   width: 56px;
   height: 56px;
   transition: transform 220ms ease;
-}
-
-@keyframes gradient-drift {
-  0% {
-    transform: scale(calc(1.02 + var(--heat) * 0.018)) translate3d(-2.5%, -1.5%, 0);
-  }
-  100% {
-    transform: scale(calc(1.08 + var(--heat) * 0.018)) translate3d(2.5%, 2%, 0);
-  }
-}
-
-@keyframes red-pulse {
-  0% {
-    transform: translate3d(-3%, 2%, 0) scale(calc(var(--fire-scale) * 0.96));
-  }
-  100% {
-    transform: translate3d(6%, -4%, 0) scale(calc(var(--fire-scale) * 1.08));
-  }
-}
-
-@keyframes gold-pulse {
-  0% {
-    transform: translate3d(-5%, 4%, 0) scale(calc(var(--fire-scale) * 0.98));
-  }
-  100% {
-    transform: translate3d(3%, -7%, 0) scale(calc(var(--fire-scale) * 1.12));
-  }
-}
-
-@keyframes ember-float {
-  0% {
-    transform: translate3d(5%, -4%, 0) scale(calc(var(--fire-scale) * 0.92));
-  }
-  100% {
-    transform: translate3d(-5%, 6%, 0) scale(calc(var(--fire-scale) * 1.05));
-  }
 }
 
 @media (max-width: 380px) {
