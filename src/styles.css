@@ -51,38 +51,32 @@ body {
   overflow: hidden;
   border-bottom-right-radius: 48px;
   border-bottom-left-radius: 48px;
-  background: #111;
+  background: #0f0f0f;
   isolation: isolate;
   contain: paint;
 }
 
-.fire-gradient,
-.fire-canvas,
 .top-vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.fire-gradient {
-  background-size: 125% 125%, 145% 132%, 128% 140%, 100% 100%;
-  background:
-    radial-gradient(circle at 62% 66%, rgb(255 236 177 / 0.72), rgb(255 176 29 / 0.36) 20%, transparent 45%),
-    radial-gradient(circle at 20% 64%, rgb(255 20 12 / 0.62), rgb(255 48 8 / 0.38) 35%, transparent 68%),
-    radial-gradient(circle at 78% 38%, rgb(255 105 14 / 0.34), transparent 52%),
-    linear-gradient(180deg, #7a310d 0%, #b34e0b 25%, #f36e08 50%, #ff8106 74%, #ff7a03 100%);
-  background-position: 48% 62%, 18% 60%, 78% 34%, 0 0;
-  filter: saturate(calc(1.05 + var(--heat) * 0.24)) brightness(calc(0.98 + var(--heat) * 0.08));
-  animation: fire-gradient-shift var(--fire-speed) ease-in-out infinite alternate;
-  will-change: background-position, filter;
-}
-
-.fire-canvas {
-  z-index: 2;
+.fire-artwork {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.72;
-  mix-blend-mode: screen;
+  mix-blend-mode: hard-light;
+  pointer-events: none;
+  transform: scaleX(1.5) scaleY(var(--flame-scale-y, 1.5));
+  transform-origin: 50% 100%;
+  transition: transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.flame-vector,
+.flame-core-glow {
+  mix-blend-mode: normal;
 }
 
 .top-vignette {
@@ -123,7 +117,7 @@ body {
   height: var(--temperature-step);
   align-items: center;
   justify-content: flex-end;
-  color: rgb(255 255 255 / 0.3);
+  color: #fff;
   font-family: "LED Counter 7 V2", "LED Dot-Matrix", "LED Dot Matrix", monospace;
   font-weight: 400;
   line-height: 1;
@@ -148,17 +142,17 @@ body {
 
 .temperature-label.size-1 {
   font-size: clamp(43px, 10.8vw, 58px);
-  opacity: 0.58;
+  opacity: 0.4;
 }
 
 .temperature-label.size-2 {
   font-size: clamp(32px, 8.1vw, 42px);
-  opacity: 0.36;
+  opacity: 0.4;
 }
 
 .temperature-label.size-3 {
   font-size: clamp(24px, 6.3vw, 32px);
-  opacity: 0.22;
+  opacity: 0.4;
 }
 
 .temperature-number,
@@ -274,15 +268,6 @@ body {
   width: 56px;
   height: 56px;
   transition: transform 220ms ease;
-}
-
-@keyframes fire-gradient-shift {
-  0% {
-    background-position: 44% 66%, 16% 64%, 80% 32%, 0 0;
-  }
-  100% {
-    background-position: 64% calc(72% - var(--fire-rise)), 26% 58%, 70% 42%, 0 0;
-  }
 }
 
 @media (max-width: 380px) {

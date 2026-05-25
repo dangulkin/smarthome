@@ -6,6 +6,8 @@ import "./styles.css";
 
 const INITIAL_TEMPERATURE = 23;
 const BASE_URL = import.meta.env.BASE_URL;
+const HOT_FLAME_LOOP_SECONDS = 0.95;
+const COLD_FLAME_LOOP_SECONDS = 2.8;
 
 function TemperatureRail({ temperature }) {
   const values = temperatureScale();
@@ -69,98 +71,132 @@ function BottomControl({ intensity }) {
   );
 }
 
-function FireCanvas({ intensity }) {
-  const canvasRef = useRef(null);
+function FireArtwork({ intensity }) {
+  const redPathRef = useRef(null);
+  const orangePathRef = useRef(null);
+  const goldPathRef = useRef(null);
+  const coreRef = useRef(null);
+  const intensityRef = useRef(intensity);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-
-    if (!canvas || !context) {
-      return undefined;
-    }
-
-    let frame = 0;
-    let animationFrame = 0;
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const scale = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(rect.width * scale);
-      canvas.height = Math.round(rect.height * scale);
-      context.setTransform(scale, 0, 0, scale, 0, 0);
-    };
-
-    const drawBlob = (x, y, radius, colors) => {
-      const gradient = context.createRadialGradient(x, y, 0, x, y, radius);
-      colors.forEach(([stop, color]) => gradient.addColorStop(stop, color));
-      context.fillStyle = gradient;
-      context.beginPath();
-      context.arc(x, y, radius, 0, Math.PI * 2);
-      context.fill();
-    };
-
-    const draw = () => {
-      const width = canvas.clientWidth;
-      const height = canvas.clientHeight;
-      const heat = 0.75 + intensity * 0.55;
-      const t = frame / 60;
-
-      context.clearRect(0, 0, width, height);
-      context.globalCompositeOperation = "screen";
-      context.filter = "blur(22px)";
-
-      drawBlob(
-        width * (0.18 + Math.sin(t * 0.72) * 0.045),
-        height * (0.69 + Math.cos(t * 0.6) * 0.025),
-        width * (0.44 + Math.sin(t * 0.9) * 0.035) * heat,
-        [
-          [0, "rgba(255, 16, 10, 0.72)"],
-          [0.45, "rgba(255, 72, 10, 0.42)"],
-          [1, "rgba(255, 72, 10, 0)"]
-        ]
-      );
-
-      drawBlob(
-        width * (0.61 + Math.sin(t * 0.96 + 1.4) * 0.055),
-        height * (0.78 + Math.cos(t * 0.82) * 0.035),
-        width * (0.42 + Math.cos(t * 1.1) * 0.04) * heat,
-        [
-          [0, "rgba(255, 248, 202, 0.76)"],
-          [0.28, "rgba(255, 178, 28, 0.48)"],
-          [0.72, "rgba(255, 92, 8, 0.18)"],
-          [1, "rgba(255, 92, 8, 0)"]
-        ]
-      );
-
-      drawBlob(
-        width * (0.79 + Math.cos(t * 0.52 + 0.8) * 0.04),
-        height * (0.38 + Math.sin(t * 0.68) * 0.04),
-        width * (0.36 + Math.sin(t * 0.74) * 0.03),
-        [
-          [0, "rgba(255, 120, 18, 0.34)"],
-          [0.58, "rgba(112, 26, 10, 0.18)"],
-          [1, "rgba(112, 26, 10, 0)"]
-        ]
-      );
-
-      context.filter = "none";
-      context.globalCompositeOperation = "source-over";
-      frame += 1;
-      animationFrame = requestAnimationFrame(draw);
-    };
-
-    resize();
-    draw();
-    window.addEventListener("resize", resize);
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-      window.removeEventListener("resize", resize);
-    };
+    intensityRef.current = intensity;
   }, [intensity]);
 
-  return <canvas className="fire-canvas" ref={canvasRef} aria-hidden="true" />;
+  useEffect(() => {
+    let animationFrame = 0;
+    let previousTimeMs = null;
+    let phase = 0;
+    let smoothHeat = intensityRef.current;
+
+    const redBase = [-8, 250, 78, 430, 14, 80, 166, 420, 89, -34, 262, 340, 254, 96, 344, 404, 390, -20];
+    const orangeBase = [55, 330, 130, 498, 88, 105, 205, 430, 195, 210, 296, 506, 326, 138];
+    const goldBase = [112, 438, 188, 530, 204, 248, 276, 502, 364, 350];
+
+    const point = (base, index, amount, time, phase, motion) => {
+      const activeAmount = amount * motion;
+      const x = base[index] + Math.sin(time * 1.1 + phase) * activeAmount * 0.22;
+      const y = base[index + 1] + Math.sin(time + phase) * activeAmount;
+      return `${x.toFixed(1)} ${y.toFixed(1)}`;
+    };
+
+    const render = (timeMs) => {
+      const deltaSeconds = previousTimeMs === null ? 1 / 60 : Math.min((timeMs - previousTimeMs) / 1000, 0.064);
+      previousTimeMs = timeMs;
+
+      const targetHeat = intensityRef.current;
+      const heatEase = 1 - Math.exp(-deltaSeconds / 0.16);
+      smoothHeat += (targetHeat - smoothHeat) * heatEase;
+
+      const loopSeconds = COLD_FLAME_LOOP_SECONDS - smoothHeat * (COLD_FLAME_LOOP_SECONDS - HOT_FLAME_LOOP_SECONDS);
+      const motion = 0.36 + smoothHeat * 0.82;
+      phase += deltaSeconds * ((Math.PI * 2) / loopSeconds);
+      const time = phase;
+
+      redPathRef.current?.setAttribute(
+        "d",
+        `M-18 648 L${point(redBase, 0, 32, time, 0.2, motion)} L${point(redBase, 2, -18, time, 1.1, motion)} L${point(redBase, 4, 44, time, 2.2, motion)} L${point(redBase, 6, -28, time, 3.1, motion)} L${point(redBase, 8, 40, time, 4.0, motion)} L${point(redBase, 10, -22, time, 4.7, motion)} L${point(redBase, 12, 30, time, 5.4, motion)} L${point(redBase, 14, -34, time, 6.1, motion)} L${point(redBase, 16, 38, time, 6.8, motion)} L426 648 Z`
+      );
+
+      orangePathRef.current?.setAttribute(
+        "d",
+        `M42 664 L${point(orangeBase, 0, -28, time, 0.9, motion)} L${point(orangeBase, 2, 24, time, 1.7, motion)} L${point(orangeBase, 4, 38, time, 2.6, motion)} L${point(orangeBase, 6, -30, time, 3.6, motion)} L${point(orangeBase, 8, 36, time, 4.4, motion)} L${point(orangeBase, 10, -24, time, 5.2, motion)} L${point(orangeBase, 12, 34, time, 6.0, motion)} L410 664 Z`
+      );
+
+      goldPathRef.current?.setAttribute(
+        "d",
+        `M46 670 L${point(goldBase, 0, -34, time, 1.3, motion)} L${point(goldBase, 2, 20, time, 2.1, motion)} L${point(goldBase, 4, 42, time, 3.2, motion)} L${point(goldBase, 6, -26, time, 4.1, motion)} L${point(goldBase, 8, 32, time, 5.0, motion)} L372 670 Z`
+      );
+
+      const corePulse = Math.sin(time + 1.3);
+      const coreDrift = Math.sin(time * 1.1 + 2.1);
+      if (coreRef.current) {
+        coreRef.current.setAttribute("cx", (212 + coreDrift * 8 * motion).toFixed(1));
+        coreRef.current.setAttribute("cy", (676 + corePulse * 7 * motion).toFixed(1));
+        coreRef.current.setAttribute("rx", (172 + corePulse * 18 * motion).toFixed(1));
+        coreRef.current.setAttribute("ry", (72 - corePulse * 7 * motion).toFixed(1));
+        coreRef.current.setAttribute("opacity", (0.74 + (corePulse + 1) * 0.04).toFixed(2));
+      }
+
+      animationFrame = requestAnimationFrame(render);
+    };
+
+    animationFrame = requestAnimationFrame(render);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, []);
+
+  return (
+    <svg className="fire-artwork" viewBox="0 0 390 662" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="redFill" cx="45%" cy="60%" r="70%">
+          <stop offset="0%" stopColor="#ff180b" />
+          <stop offset="55%" stopColor="#ff2b0b" />
+          <stop offset="100%" stopColor="#ff2b0b" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="orangeFill" cx="52%" cy="63%" r="68%">
+          <stop offset="0%" stopColor="#ff7b09" />
+          <stop offset="58%" stopColor="#ff5208" />
+          <stop offset="100%" stopColor="#ff5208" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id="goldFill" cx="50%" cy="65%" r="65%">
+          <stop offset="0%" stopColor="#fff1bd" />
+          <stop offset="44%" stopColor="#ffb21a" />
+          <stop offset="100%" stopColor="#ffb21a" stopOpacity="0" />
+        </radialGradient>
+        <filter id="blur90" x="-35%" y="-35%" width="170%" height="170%">
+          <feGaussianBlur stdDeviation="45" />
+        </filter>
+        <filter id="blur60" x="-35%" y="-35%" width="170%" height="170%">
+          <feGaussianBlur stdDeviation="30" />
+        </filter>
+        <filter id="blur40" x="-35%" y="-35%" width="170%" height="170%">
+          <feGaussianBlur stdDeviation="20" />
+        </filter>
+      </defs>
+      <path
+        ref={redPathRef}
+        className="flame-vector red"
+        filter="url(#blur90)"
+        fill="url(#redFill)"
+        d="M-18 648 L-8 250 L78 430 L14 80 L166 420 L89 -34 L262 340 L254 96 L344 404 L390 -20 L426 648 Z"
+      />
+      <path
+        ref={orangePathRef}
+        className="flame-vector orange"
+        filter="url(#blur60)"
+        fill="url(#orangeFill)"
+        d="M42 664 L55 330 L130 498 L88 105 L205 430 L195 210 L296 506 L326 138 L410 664 Z"
+      />
+      <path
+        ref={goldPathRef}
+        className="flame-vector gold"
+        filter="url(#blur40)"
+        fill="url(#goldFill)"
+        d="M46 670 L112 438 L188 530 L204 248 L276 502 L364 350 L372 670 Z"
+      />
+      <ellipse ref={coreRef} className="flame-core-glow" filter="url(#blur40)" cx="212" cy="676" rx="172" ry="72" fill="#ffffff" opacity="0.78" />
+    </svg>
+  );
 }
 
 function useVerticalSwipe(setTemperature) {
@@ -223,7 +259,8 @@ function FireplaceApp() {
       "--fire-scale": 0.92 + intensity * 0.2,
       "--fire-rise": `${7 + intensity * 13}%`,
       "--fire-speed": `${7.6 - intensity * 2.4}s`,
-      "--glow-opacity": 0.48 + intensity * 0.28
+      "--glow-opacity": 0.48 + intensity * 0.28,
+      "--flame-scale-y": 0.72 + intensity * 0.78
     }),
     [intensity]
   );
@@ -238,8 +275,7 @@ function FireplaceApp() {
       onPointerCancel={swipe.onPointerUp}
     >
       <section className="fire-panel" aria-label="Fireplace control">
-        <div className="fire-gradient" />
-        <FireCanvas intensity={intensity} />
+        <FireArtwork intensity={intensity} />
         <div className="top-vignette" />
         <TemperatureRail temperature={temperature} />
       </section>
