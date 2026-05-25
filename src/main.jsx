@@ -16,7 +16,7 @@ function TemperatureRail({ temperature }) {
       <div
         className="temperature-drum-track"
         style={{
-          transform: `translate3d(0, calc(50% - (${activeIndex} + 0.5) * var(--temperature-step)), 0)`
+          transform: `translate3d(0, calc(-${activeIndex + 0.5} * var(--temperature-step)), 0)`
         }}
       >
         {values.map((value, index) => {
@@ -39,11 +39,11 @@ function TemperatureRail({ temperature }) {
 function DeviceSelector() {
   return (
     <nav className="device-selector" aria-label="Device selector">
-      <span className="device muted">Chair</span>
+      <span className="device muted">Humidifier</span>
       <span className="device secondary">Lamp</span>
       <span className="device selected">Fireplace</span>
       <span className="device secondary">Teapot</span>
-      <span className="device muted">Chair</span>
+      <span className="device muted">AC</span>
     </nav>
   );
 }
@@ -67,6 +67,100 @@ function BottomControl({ intensity }) {
       <DotIcon variant="plus" />
     </div>
   );
+}
+
+function FireCanvas({ intensity }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+
+    if (!canvas || !context) {
+      return undefined;
+    }
+
+    let frame = 0;
+    let animationFrame = 0;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const scale = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(rect.width * scale);
+      canvas.height = Math.round(rect.height * scale);
+      context.setTransform(scale, 0, 0, scale, 0, 0);
+    };
+
+    const drawBlob = (x, y, radius, colors) => {
+      const gradient = context.createRadialGradient(x, y, 0, x, y, radius);
+      colors.forEach(([stop, color]) => gradient.addColorStop(stop, color));
+      context.fillStyle = gradient;
+      context.beginPath();
+      context.arc(x, y, radius, 0, Math.PI * 2);
+      context.fill();
+    };
+
+    const draw = () => {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      const heat = 0.75 + intensity * 0.55;
+      const t = frame / 60;
+
+      context.clearRect(0, 0, width, height);
+      context.globalCompositeOperation = "screen";
+      context.filter = "blur(22px)";
+
+      drawBlob(
+        width * (0.18 + Math.sin(t * 0.72) * 0.045),
+        height * (0.69 + Math.cos(t * 0.6) * 0.025),
+        width * (0.44 + Math.sin(t * 0.9) * 0.035) * heat,
+        [
+          [0, "rgba(255, 16, 10, 0.72)"],
+          [0.45, "rgba(255, 72, 10, 0.42)"],
+          [1, "rgba(255, 72, 10, 0)"]
+        ]
+      );
+
+      drawBlob(
+        width * (0.61 + Math.sin(t * 0.96 + 1.4) * 0.055),
+        height * (0.78 + Math.cos(t * 0.82) * 0.035),
+        width * (0.42 + Math.cos(t * 1.1) * 0.04) * heat,
+        [
+          [0, "rgba(255, 248, 202, 0.76)"],
+          [0.28, "rgba(255, 178, 28, 0.48)"],
+          [0.72, "rgba(255, 92, 8, 0.18)"],
+          [1, "rgba(255, 92, 8, 0)"]
+        ]
+      );
+
+      drawBlob(
+        width * (0.79 + Math.cos(t * 0.52 + 0.8) * 0.04),
+        height * (0.38 + Math.sin(t * 0.68) * 0.04),
+        width * (0.36 + Math.sin(t * 0.74) * 0.03),
+        [
+          [0, "rgba(255, 120, 18, 0.34)"],
+          [0.58, "rgba(112, 26, 10, 0.18)"],
+          [1, "rgba(112, 26, 10, 0)"]
+        ]
+      );
+
+      context.filter = "none";
+      context.globalCompositeOperation = "source-over";
+      frame += 1;
+      animationFrame = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+    window.addEventListener("resize", resize);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      window.removeEventListener("resize", resize);
+    };
+  }, [intensity]);
+
+  return <canvas className="fire-canvas" ref={canvasRef} aria-hidden="true" />;
 }
 
 function useVerticalSwipe(setTemperature) {
@@ -109,7 +203,16 @@ function FireplaceApp() {
   const swipe = useVerticalSwipe(setTemperature);
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
+    if (import.meta.env.DEV && "serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        registrations.forEach((registration) => registration.unregister());
+      });
+      caches?.keys?.().then((keys) => {
+        keys.forEach((key) => caches.delete(key));
+      });
+    }
+
+    if (import.meta.env.PROD && "serviceWorker" in navigator) {
       navigator.serviceWorker.register(`${BASE_URL}sw.js`).catch(() => {});
     }
   }, []);
@@ -117,10 +220,10 @@ function FireplaceApp() {
   const visualStyle = useMemo(
     () => ({
       "--heat": intensity,
-      "--fire-scale": 0.86 + intensity * 0.34,
-      "--fire-rise": `${10 + intensity * 15}%`,
-      "--fire-speed": `${7.5 - intensity * 3.2}s`,
-      "--glow-opacity": 0.55 + intensity * 0.34
+      "--fire-scale": 0.92 + intensity * 0.2,
+      "--fire-rise": `${7 + intensity * 13}%`,
+      "--fire-speed": `${7.6 - intensity * 2.4}s`,
+      "--glow-opacity": 0.48 + intensity * 0.28
     }),
     [intensity]
   );
@@ -136,6 +239,7 @@ function FireplaceApp() {
     >
       <section className="fire-panel" aria-label="Fireplace control">
         <div className="fire-gradient" />
+        <FireCanvas intensity={intensity} />
         <div className="top-vignette" />
         <TemperatureRail temperature={temperature} />
       </section>

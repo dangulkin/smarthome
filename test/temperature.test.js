@@ -16,14 +16,14 @@ test("clampTemperature keeps values inside the fireplace range", () => {
   assert.equal(clampTemperature(23), 23);
 });
 
-test("temperatureFromDrag maps upward swipes to hotter values", () => {
-  assert.equal(temperatureFromDrag(23, -90), 24);
-  assert.equal(temperatureFromDrag(23, 90), 22);
+test("temperatureFromDrag maps upward swipes to colder values", () => {
+  assert.equal(temperatureFromDrag(23, -90), 22);
+  assert.equal(temperatureFromDrag(23, 90), 24);
 });
 
 test("temperatureFromDrag clamps repeated drags at both ends", () => {
-  assert.equal(temperatureFromDrag(MAX_TEMPERATURE, -900), MAX_TEMPERATURE);
-  assert.equal(temperatureFromDrag(MIN_TEMPERATURE, 900), MIN_TEMPERATURE);
+  assert.equal(temperatureFromDrag(MAX_TEMPERATURE, 900), MAX_TEMPERATURE);
+  assert.equal(temperatureFromDrag(MIN_TEMPERATURE, -900), MIN_TEMPERATURE);
 });
 
 test("normalizeTemperature returns a zero-to-one intensity", () => {

@@ -11,7 +11,7 @@ export function normalizeTemperature(value) {
 }
 
 export function temperatureFromDrag(startTemperature, translationY, pixelsPerDegree = 84) {
-  const raw = startTemperature - translationY / pixelsPerDegree;
+  const raw = startTemperature + translationY / pixelsPerDegree;
   return clampTemperature(Math.round(raw / TEMPERATURE_STEP) * TEMPERATURE_STEP);
 }
 
