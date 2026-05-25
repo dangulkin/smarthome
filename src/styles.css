@@ -1,0 +1,332 @@
+@import url("https://fonts.cdnfonts.com/css/led-dot-matrix");
+
+:root {
+  color-scheme: dark;
+  background: #0b0b0c;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #0b0b0c;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  color: #fff;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #0b0b0c;
+  touch-action: none;
+}
+
+.fire-panel {
+  position: relative;
+  height: calc(100dvh - 194px);
+  min-height: 0;
+  overflow: hidden;
+  border-bottom-right-radius: 48px;
+  border-bottom-left-radius: 48px;
+  background: #111;
+  transform: scale(var(--panel-scale));
+  transform-origin: center top;
+  transition: transform 240ms ease-out;
+  isolation: isolate;
+}
+
+.fire-gradient,
+.fire-blob,
+.top-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.fire-gradient {
+  background:
+    radial-gradient(circle at 63% calc(87% - var(--fire-rise)), rgb(255 239 188 / 0.94), rgb(255 173 24 / 0.78) 19%, rgb(255 81 10 / 0.4) 43%, transparent 67%),
+    radial-gradient(circle at 20% 70%, rgb(255 15 14 / 0.88), rgb(255 45 8 / 0.58) 35%, transparent 66%),
+    radial-gradient(circle at 79% 31%, rgb(255 99 15 / 0.44), rgb(105 23 11 / 0.26) 45%, transparent 70%),
+    linear-gradient(180deg, #0d1010 0%, #20100b 25%, #6d170c 48%, #ff270e 67%, #ff8309 83%, #ffd479 100%);
+  filter: saturate(calc(1.03 + var(--heat) * 0.45)) brightness(calc(0.9 + var(--heat) * 0.2));
+  animation: gradient-drift var(--fire-speed) ease-in-out infinite alternate;
+}
+
+.fire-blob {
+  border-radius: 999px;
+  mix-blend-mode: screen;
+  filter: blur(42px);
+  opacity: var(--glow-opacity);
+  transform: translate3d(0, 0, 0) scale(var(--fire-scale));
+  will-change: transform, opacity;
+}
+
+.blob-red {
+  width: 82vw;
+  height: 82vw;
+  left: -26vw;
+  bottom: 7vh;
+  background: radial-gradient(circle, #ff0d0d 0%, #ff4c08 42%, transparent 72%);
+  animation: red-pulse calc(var(--fire-speed) * 0.82) ease-in-out infinite alternate;
+}
+
+.blob-gold {
+  width: 96vw;
+  height: 84vw;
+  left: 22vw;
+  bottom: -8vh;
+  background: radial-gradient(circle, #fff4c5 0%, #ffb21a 26%, #ff5d0b 58%, transparent 76%);
+  filter: blur(48px);
+  animation: gold-pulse calc(var(--fire-speed) * 0.72) ease-in-out infinite alternate-reverse;
+}
+
+.blob-ember {
+  width: 72vw;
+  height: 72vw;
+  right: -17vw;
+  top: 28vh;
+  background: radial-gradient(circle, rgb(255 96 12 / 0.9), rgb(111 20 8 / 0.5) 43%, transparent 72%);
+  filter: blur(58px);
+  animation: ember-float calc(var(--fire-speed) * 1.14) ease-in-out infinite alternate;
+}
+
+.top-vignette {
+  z-index: 4;
+  height: 170px;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0.24), transparent);
+}
+
+.temperature-drum {
+  --temperature-step: clamp(82px, 10.6vh, 112px);
+  position: absolute;
+  z-index: 5;
+  top: max(106px, 14vh);
+  right: 26px;
+  width: min(42vw, 220px);
+  height: min(58vh, calc(100dvh - 324px));
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+}
+
+.temperature-drum-track {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  gap: 0;
+  transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  will-change: transform;
+}
+
+.temperature-label {
+  display: flex;
+  width: min(42vw, 220px);
+  height: var(--temperature-step);
+  align-items: center;
+  justify-content: flex-end;
+  color: rgb(255 255 255 / 0.3);
+  font-family: "LED Dot-Matrix", "LED Dot Matrix", monospace;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: right;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease,
+    font-size 220ms ease;
+  transform-origin: right center;
+}
+
+.temperature-label.hidden {
+  opacity: 0;
+}
+
+.temperature-label.size-0 {
+  color: #fff;
+  font-size: clamp(62px, 16.8vw, 86px);
+  opacity: 1;
+}
+
+.temperature-label.size-1 {
+  font-size: clamp(43px, 10.8vw, 58px);
+  opacity: 0.58;
+}
+
+.temperature-label.size-2 {
+  font-size: clamp(32px, 8.1vw, 42px);
+  opacity: 0.36;
+}
+
+.temperature-label.size-3 {
+  font-size: clamp(24px, 6.3vw, 32px);
+  opacity: 0.22;
+}
+
+.temperature-number,
+.temperature-degree {
+  display: inline-block;
+  font: inherit;
+  line-height: inherit;
+}
+
+.temperature-degree {
+  margin-left: 0.08em;
+}
+
+.device-selector {
+  position: relative;
+  z-index: 8;
+  display: flex;
+  height: 86px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 24px;
+  white-space: nowrap;
+}
+
+.device {
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.device.selected {
+  color: #fff;
+  font-size: clamp(34px, 10vw, 42px);
+  font-weight: 700;
+}
+
+.device.secondary {
+  color: rgb(255 255 255 / 0.66);
+  font-size: clamp(25px, 7.4vw, 32px);
+  font-weight: 400;
+}
+
+.device.muted {
+  max-width: 58px;
+  overflow: hidden;
+  color: rgb(255 255 255 / 0.1);
+  font-size: clamp(22px, 6vw, 26px);
+}
+
+.bottom-control {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  height: 108px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 78px;
+  border: 1px solid rgb(255 255 255 / 0.05);
+  border-radius: 36px 36px 0 0;
+  background: #1c1c1e;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 -18px 40px rgb(0 0 0 / 0.24);
+}
+
+.dock-led-icon {
+  display: flex;
+  width: 78px;
+  height: 78px;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: "LED Dot-Matrix", "LED Dot Matrix", monospace;
+  font-size: 60px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.flame-button {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+}
+
+.flame-core {
+  display: block;
+  width: 56px;
+  height: 56px;
+  transition: transform 220ms ease;
+}
+
+@keyframes gradient-drift {
+  0% {
+    transform: scale(1.02) translate3d(-2.5%, -1.5%, 0);
+  }
+  100% {
+    transform: scale(1.08) translate3d(2.5%, 2%, 0);
+  }
+}
+
+@keyframes red-pulse {
+  0% {
+    transform: translate3d(-3%, 2%, 0) scale(calc(var(--fire-scale) * 0.96));
+  }
+  100% {
+    transform: translate3d(6%, -4%, 0) scale(calc(var(--fire-scale) * 1.08));
+  }
+}
+
+@keyframes gold-pulse {
+  0% {
+    transform: translate3d(-5%, 4%, 0) scale(calc(var(--fire-scale) * 0.98));
+  }
+  100% {
+    transform: translate3d(3%, -7%, 0) scale(calc(var(--fire-scale) * 1.12));
+  }
+}
+
+@keyframes ember-float {
+  0% {
+    transform: translate3d(5%, -4%, 0) scale(calc(var(--fire-scale) * 0.92));
+  }
+  100% {
+    transform: translate3d(-5%, 6%, 0) scale(calc(var(--fire-scale) * 1.05));
+  }
+}
+
+@media (max-width: 380px) {
+  .temperature-drum {
+    right: 20px;
+  }
+
+  .bottom-control {
+    padding-right: 54px;
+    padding-left: 54px;
+  }
+
+  .device-selector {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}
