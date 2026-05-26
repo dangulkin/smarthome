@@ -66,6 +66,33 @@ body {
   height: calc(956px * var(--prototype-scale, 1));
 }
 
+body.preview-cursor-active,
+body.preview-cursor-active .prototype-stage,
+body.preview-cursor-active .prototype-stage * {
+  cursor: none;
+}
+
+body.preview-cursor-active .fire-settings,
+body.preview-cursor-active .fire-settings * {
+  cursor: auto;
+}
+
+.preview-cursor {
+  position: absolute;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid rgb(255 255 255 / 0.88);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.14);
+  box-shadow: 0 0 18px rgb(255 255 255 / 0.2);
+  pointer-events: none;
+  transition: opacity 120ms ease;
+  will-change: transform;
+}
+
 .app-frame {
   position: absolute;
   top: 50%;

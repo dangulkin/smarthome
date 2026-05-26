@@ -444,7 +444,6 @@ function useVerticalSwipe(setTemperature) {
   const startYRef = useRef(0);
   const startTemperatureRef = useRef(INITIAL_TEMPERATURE);
   const activePointerRef = useRef(null);
-  const wheelDeltaRef = useRef(0);
 
   const onPointerDown = useCallback((event, temperature) => {
     activePointerRef.current = event.pointerId;
@@ -472,8 +471,18 @@ function useVerticalSwipe(setTemperature) {
     }
   }, []);
 
-  const onWheel = useCallback(
-    (event) => {
+  return { onPointerDown, onPointerMove, onPointerUp };
+}
+
+function usePageWheelTemperature(setTemperature) {
+  const wheelDeltaRef = useRef(0);
+
+  useEffect(() => {
+    const onWheel = (event) => {
+      if (event.target instanceof Element && event.target.closest(".fire-settings")) {
+        return;
+      }
+
       event.preventDefault();
 
       const pixelsPerDegree = Math.max(44, window.innerHeight * 0.075);
@@ -486,11 +495,11 @@ function useVerticalSwipe(setTemperature) {
 
       wheelDeltaRef.current -= steps * pixelsPerDegree;
       setTemperature((currentTemperature) => clampTemperature(currentTemperature + steps));
-    },
-    [setTemperature]
-  );
+    };
 
-  return { onPointerDown, onPointerMove, onPointerUp, onWheel };
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [setTemperature]);
 }
 
 function FireplaceApp() {
@@ -499,8 +508,10 @@ function FireplaceApp() {
   const [viewSettings, setViewSettings] = useState(DEFAULT_VIEW_SETTINGS);
   const [previewScale, setPreviewScale] = useState(getInitialPreviewScale);
   const [showSettings, setShowSettings] = useState(false);
+  const [previewCursor, setPreviewCursor] = useState({ x: 0, y: 0, visible: false });
   const intensity = normalizeTemperature(temperature);
   const swipe = useVerticalSwipe(setTemperature);
+  usePageWheelTemperature(setTemperature);
 
   useEffect(() => {
     if (import.meta.env.DEV && "serviceWorker" in navigator) {
@@ -541,9 +552,36 @@ function FireplaceApp() {
     [intensity]
   );
 
+  const onPreviewPointerMove = useCallback((event) => {
+    if (event.pointerType !== "mouse") {
+      return;
+    }
+
+    document.body.classList.add("preview-cursor-active");
+    const rect = event.currentTarget.getBoundingClientRect();
+    setPreviewCursor({
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+      visible: true
+    });
+  }, []);
+
+  const onPreviewPointerLeave = useCallback(() => {
+    document.body.classList.remove("preview-cursor-active");
+    setPreviewCursor((current) => ({ ...current, visible: false }));
+  }, []);
+
+  useEffect(() => {
+    return () => document.body.classList.remove("preview-cursor-active");
+  }, []);
+
   return (
     <div className={`prototype-shell ${showSettings ? "settings-open" : ""}`} style={{ "--prototype-scale": previewScale, "--page-background": viewSettings.pageBackground }}>
-      <div className="prototype-stage">
+      <div
+        className={`prototype-stage ${previewCursor.visible ? "preview-cursor-active" : ""}`}
+        onPointerMove={onPreviewPointerMove}
+        onPointerLeave={onPreviewPointerLeave}
+      >
         <div className="app-frame">
           <main
             className="app"
@@ -552,7 +590,6 @@ function FireplaceApp() {
             onPointerMove={swipe.onPointerMove}
             onPointerUp={swipe.onPointerUp}
             onPointerCancel={swipe.onPointerUp}
-            onWheel={swipe.onWheel}
           >
             {viewSettings.showStatusBar ? <IosStatusBar /> : null}
             <section className="fire-panel" aria-label="Fireplace control">
@@ -567,6 +604,14 @@ function FireplaceApp() {
           </main>
         </div>
         {viewSettings.showDevice ? <DeviceMockup /> : null}
+        <div
+          className="preview-cursor"
+          aria-hidden="true"
+          style={{
+            opacity: previewCursor.visible ? 1 : 0,
+            transform: `translate3d(${previewCursor.x}px, ${previewCursor.y}px, 0) translate(-50%, -50%)`
+          }}
+        />
       </div>
       <SettingsHint />
       {showSettings ? (
