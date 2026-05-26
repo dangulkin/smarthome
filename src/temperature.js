@@ -1,4 +1,4 @@
-export const MIN_TEMPERATURE = 19;
+export const MIN_TEMPERATURE = 17;
 export const MAX_TEMPERATURE = 26;
 export const TEMPERATURE_STEP = 1;
 

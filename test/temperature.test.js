@@ -29,9 +29,9 @@ test("temperatureFromDrag clamps repeated drags at both ends", () => {
 test("normalizeTemperature returns a zero-to-one intensity", () => {
   assert.equal(normalizeTemperature(MIN_TEMPERATURE), 0);
   assert.equal(normalizeTemperature(MAX_TEMPERATURE), 1);
-  assert.equal(normalizeTemperature(22.5), 0.5);
+  assert.equal(normalizeTemperature(21.5), 0.5);
 });
 
 test("temperatureScale lists labels from hottest to coldest", () => {
-  assert.deepEqual(temperatureScale(), [26, 25, 24, 23, 22, 21, 20, 19]);
+  assert.deepEqual(temperatureScale(), [26, 25, 24, 23, 22, 21, 20, 19, 18, 17]);
 });

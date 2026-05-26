@@ -1,5 +1,5 @@
 @import url("https://db.onlinewebfonts.com/c/dc47e430634596cb7e61ff294069edde?family=LED+Counter+7+V2");
-@import url("https://fonts.googleapis.com/css2?family=Vend+Sans:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Vend+Sans:wght@400;500&display=swap");
 
 :root {
   color-scheme: dark;
@@ -36,17 +36,94 @@ body {
 
 .app {
   position: relative;
-  width: 100vw;
-  height: 100dvh;
-  min-height: 100vh;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
   background: #0b0b0c;
   touch-action: none;
 }
 
+.prototype-shell {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  width: auto;
+  height: auto;
+  place-items: center;
+  overflow: auto;
+  padding: 32px;
+  background: var(--page-background, #141416);
+}
+
+.prototype-shell.settings-open {
+  right: 360px;
+}
+
+.prototype-stage {
+  position: relative;
+  width: calc(440px * var(--prototype-scale, 1));
+  height: calc(956px * var(--prototype-scale, 1));
+}
+
+.app-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 440px;
+  height: 956px;
+  overflow: hidden;
+  border-radius: 56px;
+  background: #0b0b0c;
+  box-shadow: 0 24px 80px rgb(0 0 0 / 0.34);
+  transform: translate(-50%, -50%) scale(var(--prototype-scale, 1));
+  transform-origin: center;
+}
+
+.device-mockup {
+  position: absolute;
+  z-index: 40;
+  top: 50%;
+  left: 50%;
+  width: 488px;
+  height: auto;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(var(--prototype-scale, 1));
+  transform-origin: center;
+}
+
+.settings-hint {
+  position: fixed;
+  z-index: 15;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  color: rgb(255 255 255 / 0.46);
+  font-family: "Vend Sans", Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  pointer-events: none;
+}
+
+.settings-hint-text {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.settings-hint-key {
+  color: rgb(255 255 255 / 0.72);
+  font-size: 32px;
+  line-height: 0.9;
+}
+
 .fire-panel {
   position: relative;
-  height: calc(100dvh - 182px);
+  height: calc(100% - 182px);
+  margin-right: 1px;
+  margin-left: 1px;
   min-height: 0;
   overflow: hidden;
   border-bottom-right-radius: 48px;
@@ -67,9 +144,15 @@ body {
   inset: 0;
   width: 100%;
   height: 100%;
-  mix-blend-mode: hard-light;
+  mix-blend-mode: var(--fire-blend-mode, hard-light);
   pointer-events: none;
-  transform: scaleX(1.5) scaleY(var(--flame-scale-y, 1.5));
+  transform: scaleX(1.5);
+  transform-origin: 50% 50%;
+}
+
+.fire-shapes {
+  transform: scaleY(var(--flame-scale-y, 1.5));
+  transform-box: view-box;
   transform-origin: 50% 100%;
   transition: transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
@@ -87,7 +170,7 @@ body {
 
 .temperature-drum {
   --temperature-step: clamp(82px, 10.6vh, 112px);
-  --temperature-drum-height: min(calc(var(--temperature-step) * 5), calc(100% - 96px));
+  --temperature-drum-height: min(calc(var(--temperature-step) * 7), calc(100% - 96px));
   position: absolute;
   z-index: 5;
   top: 50%;
@@ -136,22 +219,22 @@ body {
 
 .temperature-label.size-0 {
   color: #fff;
-  font-size: clamp(62px, 16.8vw, 86px);
+  font-size: 52px;
   opacity: 1;
 }
 
 .temperature-label.size-1 {
-  font-size: clamp(43px, 10.8vw, 58px);
+  font-size: 46px;
   opacity: 0.4;
 }
 
 .temperature-label.size-2 {
-  font-size: clamp(32px, 8.1vw, 42px);
+  font-size: 32px;
   opacity: 0.4;
 }
 
 .temperature-label.size-3 {
-  font-size: clamp(24px, 6.3vw, 32px);
+  font-size: 24px;
   opacity: 0.4;
 }
 
@@ -227,9 +310,9 @@ body {
 .bottom-control {
   position: absolute;
   z-index: 10;
-  right: 0;
+  right: 1px;
   bottom: 0;
-  left: 0;
+  left: 1px;
   display: flex;
   height: 108px;
   align-items: center;
@@ -254,6 +337,7 @@ body {
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0;
+  transform: translateY(-7px);
 }
 
 .flame-button {
@@ -261,6 +345,7 @@ body {
   width: 56px;
   height: 56px;
   place-items: center;
+  transform: translateY(-7px);
 }
 
 .flame-core {
@@ -268,6 +353,319 @@ body {
   width: 56px;
   height: 56px;
   transition: transform 220ms ease;
+}
+
+.ios-status-bar {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  height: 58px;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 34px;
+  color: #fff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  pointer-events: none;
+}
+
+.ios-status-time {
+  grid-column: 1;
+  justify-self: start;
+  padding-left: 28px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.ios-status-image {
+  display: block;
+  grid-column: 3;
+  width: 119px;
+  height: 22px;
+  justify-self: end;
+  object-fit: contain;
+  object-position: right center;
+}
+
+.ios-home-indicator {
+  position: absolute;
+  z-index: 31;
+  bottom: 9px;
+  left: 50%;
+  width: 151px;
+  height: 5px;
+  border-radius: 999px;
+  background: #fff;
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.fire-settings {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 360px;
+  overflow: hidden;
+  border-left: 1px solid rgb(255 255 255 / 0.08);
+  background: #1a1a1d;
+  box-shadow: -18px 0 56px rgb(0 0 0 / 0.28);
+  color: #fff;
+  font-family: "Vend Sans", Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  touch-action: auto;
+}
+
+.settings-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  background: #1a1a1d;
+}
+
+.settings-header h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+
+.settings-header p {
+  margin: 6px 0 0;
+  color: rgb(255 255 255 / 0.52);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.settings-reset {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.settings-scroll {
+  min-height: 0;
+  overflow: auto;
+  padding: 0 22px 22px;
+}
+
+.settings-section {
+  padding: 18px 0;
+  border-top: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.settings-section:first-child {
+  border-top: 0;
+}
+
+.settings-section h2 {
+  margin: 0 0 14px;
+  color: rgb(255 255 255 / 0.72);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.settings-field,
+.settings-color-field {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.settings-field:first-of-type,
+.settings-color-field:first-of-type {
+  margin-top: 0;
+}
+
+.settings-label {
+  color: rgb(255 255 255 / 0.76);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.settings-layer-row {
+  display: grid;
+  grid-template-columns: 18px 1fr 34px;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  margin-top: 10px;
+}
+
+.settings-layer-row:first-of-type {
+  margin-top: 0;
+}
+
+.settings-layer-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 50%;
+}
+
+.settings-layer-swatch.neutral {
+  background: rgb(255 255 255 / 0.34);
+}
+
+.settings-layer-name {
+  color: rgb(255 255 255 / 0.76);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.settings-eye-button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.06);
+  color: rgb(255 255 255 / 0.86);
+  cursor: pointer;
+}
+
+.settings-eye-button[aria-pressed="false"] {
+  color: rgb(255 255 255 / 0.36);
+}
+
+.settings-eye-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.settings-eye-icon circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.settings-eye-slash {
+  stroke-width: 2.2;
+}
+
+.settings-row {
+  display: grid;
+  grid-template-columns: 1fr 74px 26px;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-range {
+  width: 100%;
+  border: 0;
+  appearance: none;
+  height: 18px;
+  background: transparent;
+  accent-color: #ff7b09;
+}
+
+.settings-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff7b09 0 var(--range-progress), rgb(255 255 255 / 0.28) var(--range-progress) 100%);
+}
+
+.settings-range::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: #ff7b09;
+}
+
+.settings-range::-moz-range-track {
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.28);
+}
+
+.settings-range::-moz-range-progress {
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: #ff7b09;
+}
+
+.settings-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: #ff7b09;
+}
+
+.settings-number,
+.settings-hex,
+.settings-select {
+  width: 100%;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.settings-number {
+  padding: 0 8px;
+  text-align: right;
+}
+
+.settings-suffix {
+  color: rgb(255 255 255 / 0.46);
+  font-size: 12px;
+}
+
+.settings-color-row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 10px;
+}
+
+.settings-color {
+  width: 44px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.settings-hex,
+.settings-select {
+  padding: 0 10px;
 }
 
 @media (max-width: 380px) {
@@ -287,5 +685,44 @@ body {
 
   .device.secondary:nth-child(4) {
     left: 74%;
+  }
+}
+
+@media (max-width: 899px) {
+  .prototype-shell {
+    position: static;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    background: #0b0b0c;
+  }
+
+  .app-frame {
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    position: static;
+  }
+
+  .prototype-stage {
+    width: 100vw;
+    height: 100dvh;
+  }
+
+  .device-mockup {
+    display: none;
+  }
+
+  .fire-settings {
+    display: none;
+  }
+
+  .settings-hint {
+    display: none;
   }
 }
