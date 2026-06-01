@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { RiCheckLine } from "react-icons/ri";
 
-import { clampTemperature, normalizeTemperature, temperatureFromDrag, temperatureScale } from "./temperature.js";
+import { OFF_TEMPERATURE, clampTemperature, normalizeTemperature, temperatureFromDrag, temperatureScale } from "./temperature.js";
 import "./styles.css";
 
 const INITIAL_TEMPERATURE = 23;
@@ -35,7 +36,32 @@ const DEFAULT_VIEW_SETTINGS = {
   pageBackground: "#141416"
 };
 
+const DEVICES = ["Humidifier", "Lamp", "Fireplace", "Gamepad", "Teapot", "AC"];
+const SWITCHABLE_DEVICES = ["Fireplace", "Gamepad"];
+const GAMEPAD_DUST = {
+  far: [
+    [10, 18, 0],
+    [28, 42, 1.8],
+    [49, 22, 3.2],
+    [68, 48, 0.9],
+    [88, 30, 2.7]
+  ],
+  mid: [
+    [16, 34, 0.6],
+    [34, 16, 2.4],
+    [54, 46, 1.1],
+    [73, 22, 3.5],
+    [91, 42, 1.9]
+  ],
+  near: [
+    [22, 50, 1.3],
+    [42, 28, 3.1],
+    [63, 54, 0.4],
+    [82, 18, 2.2]
+  ]
+};
 const BLEND_MODES = ["hard-light", "screen", "plus-lighter", "lighten", "normal", "overlay"];
+const DEVICE_SCREEN_TRANSITION_MS = 520;
 
 function getInitialPreviewScale() {
   if (typeof window === "undefined" || window.innerWidth < 900) {
@@ -50,12 +76,13 @@ function getInitialPreviewScale() {
   return Math.max(0.45, Math.min(DEFAULT_PREVIEW_SCALE, roundedFitScale));
 }
 
-function TemperatureRail({ temperature }) {
+function TemperatureRail({ temperature, shutdownCountdown }) {
   const values = temperatureScale();
   const activeIndex = values.indexOf(temperature);
+  const labelText = temperature === OFF_TEMPERATURE ? "OFF" : `${temperature} degrees`;
 
   return (
-    <div className="temperature-drum" aria-label={`Temperature ${temperature} degrees`}>
+    <div className="temperature-drum" aria-label={`Temperature ${labelText}`}>
       <div
         className="temperature-drum-track"
         style={{
@@ -67,10 +94,18 @@ function TemperatureRail({ temperature }) {
           const sizeClass = distance === 0 ? "size-0" : distance === 1 ? "size-1" : distance === 2 ? "size-2" : "size-3";
           const visibilityClass = distance <= 4 ? "visible" : "hidden";
 
+          const isOff = value === OFF_TEMPERATURE;
+          const showCountdown = isOff && distance === 0 && shutdownCountdown !== null;
+
           return (
-            <div className={`temperature-label ${sizeClass} ${visibilityClass}`} key={value}>
-              <span className="temperature-number">{value}</span>
-              <span className="temperature-degree">°</span>
+            <div className={`temperature-label ${sizeClass} ${visibilityClass} ${isOff ? "off" : ""}`} key={value}>
+              {showCountdown ? (
+                <span className="shutdown-countdown" aria-hidden="true">
+                  {shutdownCountdown === "check" ? <RiCheckLine className="shutdown-check" /> : shutdownCountdown}
+                </span>
+              ) : null}
+              <span className="temperature-number">{isOff ? "OFF" : value}</span>
+              {isOff ? null : <span className="temperature-degree">°</span>}
             </div>
           );
         })}
@@ -79,14 +114,23 @@ function TemperatureRail({ temperature }) {
   );
 }
 
-function DeviceSelector() {
+function DeviceSelector({ activeDevice }) {
+  const activeIndex = DEVICES.indexOf(activeDevice);
+
   return (
     <nav className="device-selector" aria-label="Device selector">
-      <span className="device muted">Humidifier</span>
-      <span className="device secondary">Lamp</span>
-      <span className="device selected">Fireplace</span>
-      <span className="device secondary">Teapot</span>
-      <span className="device muted">AC</span>
+      {DEVICES.map((device, index) => {
+        const distance = index - activeIndex;
+        const absDistance = Math.abs(distance);
+        const className = absDistance === 0 ? "selected" : absDistance === 1 ? "secondary" : absDistance === 2 ? "tertiary" : "muted";
+        const distanceClass = absDistance >= 3 ? "far" : "";
+
+        return (
+          <span className={`device ${className} ${distanceClass}`} style={{ "--device-offset": distance }} key={device}>
+            {device}
+          </span>
+        );
+      })}
     </nav>
   );
 }
@@ -108,6 +152,82 @@ function BottomControl({ intensity }) {
         />
       </div>
       <DotIcon variant="plus" />
+    </div>
+  );
+}
+
+function GamepadScreen() {
+  return (
+    <section className="gamepad-panel" aria-label="Gamepad control">
+      <div className="gamepad-green-glow" />
+      <svg className="gamepad-glow-peaks" viewBox="0 0 390 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path className="gamepad-peak peak-back" d="M-20 330 L42 194 L84 300 L132 150 L174 306 L224 184 L270 310 L336 172 L414 330 Z" />
+        <path className="gamepad-peak peak-front" d="M4 326 L56 252 L98 320 L154 206 L194 318 L238 226 L294 320 L352 240 L404 326 Z" />
+      </svg>
+      <div className="gamepad-dust" aria-hidden="true">
+        {Object.entries(GAMEPAD_DUST).map(([depth, particles]) => (
+          <div className={`gamepad-dust-layer ${depth}`} key={depth}>
+            {particles.map(([left, bottom, delay], index) => (
+              <span
+                className="gamepad-dust-particle"
+                style={{ "--dust-left": `${left}%`, "--dust-bottom": `${bottom}px`, "--dust-delay": `${delay}s` }}
+                key={`${depth}-${index}`}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="gamepad-device-wrap">
+        <img className="gamepad-device" src={`${BASE_URL}images/gamepad.png`} alt="" />
+      </div>
+      <div className="gamepad-device-light-layer" aria-hidden="true">
+        <div className="gamepad-device-light left" />
+        <div className="gamepad-device-light center" />
+        <div className="gamepad-device-light right" />
+      </div>
+      <div className="gamepad-copy">
+        <p>
+          You&apos;ve played <span className="gamepad-led-badge">33 HRS</span> this week.
+        </p>
+        <p>Block the gamepad for 24 hrs.</p>
+        <p>
+          Better <span className="gamepad-led-badge">READ A BOOK</span>
+        </p>
+      </div>
+      <div className="gamepad-battery" aria-label="Battery level 55 percent">
+        <img className="gamepad-battery-icon" src={`${BASE_URL}images/battery.svg`} alt="" />
+        <span>55%</span>
+      </div>
+    </section>
+  );
+}
+
+function FireplaceScreen({ intensity, fireSettings, isFireOff, shutdownCountdown, temperature }) {
+  return (
+    <section className="fire-panel" aria-label="Fireplace control">
+      <FireArtwork intensity={intensity} settings={fireSettings} isHidden={isFireOff} />
+      <div className="top-vignette" />
+      <TemperatureRail temperature={temperature} shutdownCountdown={shutdownCountdown} />
+    </section>
+  );
+}
+
+function DeviceScreen({ device, className, intensity, fireSettings, isFireOff, shutdownCountdown, temperature }) {
+  const screenClassName = ["device-screen", className].filter(Boolean).join(" ");
+
+  return (
+    <div className={screenClassName}>
+      {device === "Fireplace" ? (
+        <FireplaceScreen
+          intensity={intensity}
+          fireSettings={fireSettings}
+          isFireOff={isFireOff}
+          shutdownCountdown={shutdownCountdown}
+          temperature={temperature}
+        />
+      ) : (
+        <GamepadScreen />
+      )}
     </div>
   );
 }
@@ -138,7 +258,7 @@ function SettingsHint() {
   );
 }
 
-function FireArtwork({ intensity, settings }) {
+function FireArtwork({ intensity, settings, isHidden }) {
   const redPathRef = useRef(null);
   const orangePathRef = useRef(null);
   const goldPathRef = useRef(null);
@@ -224,7 +344,7 @@ function FireArtwork({ intensity, settings }) {
 
   return (
     <svg
-      className="fire-artwork"
+      className={`fire-artwork ${isHidden ? "hidden" : ""}`}
       viewBox="0 0 390 662"
       preserveAspectRatio="none"
       aria-hidden="true"
@@ -508,8 +628,13 @@ function FireplaceApp() {
   const [viewSettings, setViewSettings] = useState(DEFAULT_VIEW_SETTINGS);
   const [previewScale, setPreviewScale] = useState(getInitialPreviewScale);
   const [showSettings, setShowSettings] = useState(false);
+  const [activeDevice, setActiveDevice] = useState("Fireplace");
+  const [screenTransition, setScreenTransition] = useState({ current: "Fireplace", previous: null, direction: "forward" });
+  const [lastHeatTemperature, setLastHeatTemperature] = useState(INITIAL_TEMPERATURE);
+  const [isFireOff, setIsFireOff] = useState(false);
+  const [shutdownCountdown, setShutdownCountdown] = useState(null);
   const [previewCursor, setPreviewCursor] = useState({ x: 0, y: 0, visible: false });
-  const intensity = normalizeTemperature(temperature);
+  const intensity = normalizeTemperature(isFireOff ? OFF_TEMPERATURE : lastHeatTemperature);
   const swipe = useVerticalSwipe(setTemperature);
   usePageWheelTemperature(setTemperature);
 
@@ -533,12 +658,94 @@ function FireplaceApp() {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "m") {
         event.preventDefault();
         setShowSettings((isVisible) => !isVisible);
+        return;
+      }
+
+      if (event.target instanceof Element && event.target.closest(".fire-settings")) {
+        return;
+      }
+
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        event.preventDefault();
+        const direction = event.key === "ArrowUp" ? 1 : -1;
+        setTemperature((currentTemperature) => clampTemperature(currentTemperature + direction));
+        return;
+      }
+
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        setActiveDevice((currentDevice) => {
+          const currentIndex = SWITCHABLE_DEVICES.indexOf(currentDevice);
+          const fallbackIndex = 0;
+          const direction = event.key === "ArrowRight" ? 1 : -1;
+          const nextIndex = (currentIndex === -1 ? fallbackIndex : currentIndex) + direction;
+          const clampedIndex = Math.min(SWITCHABLE_DEVICES.length - 1, Math.max(0, nextIndex));
+          return SWITCHABLE_DEVICES[clampedIndex];
+        });
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
+
+  useEffect(() => {
+    setScreenTransition((currentTransition) => {
+      if (currentTransition.current === activeDevice) {
+        return currentTransition;
+      }
+
+      const previousIndex = SWITCHABLE_DEVICES.indexOf(currentTransition.current);
+      const activeIndex = SWITCHABLE_DEVICES.indexOf(activeDevice);
+      const direction = activeIndex >= previousIndex ? "forward" : "backward";
+
+      return {
+        current: activeDevice,
+        previous: currentTransition.current,
+        direction
+      };
+    });
+  }, [activeDevice]);
+
+  useEffect(() => {
+    if (screenTransition.previous === null) {
+      return undefined;
+    }
+
+    const transitionTimer = window.setTimeout(() => {
+      setScreenTransition((currentTransition) => ({
+        ...currentTransition,
+        previous: null
+      }));
+    }, DEVICE_SCREEN_TRANSITION_MS);
+
+    return () => window.clearTimeout(transitionTimer);
+  }, [screenTransition.previous, screenTransition.current]);
+
+  useEffect(() => {
+    if (temperature !== OFF_TEMPERATURE) {
+      setLastHeatTemperature(temperature);
+      setIsFireOff(false);
+      setShutdownCountdown(null);
+      return undefined;
+    }
+
+    setIsFireOff(false);
+    setShutdownCountdown(3);
+    const countdownTimers = [
+      window.setTimeout(() => setShutdownCountdown(2), 1000),
+      window.setTimeout(() => setShutdownCountdown(1), 2000),
+      window.setTimeout(() => {
+        setIsFireOff(true);
+        setShutdownCountdown("check");
+      }, 3000),
+      window.setTimeout(() => setShutdownCountdown(null), 4000)
+    ];
+
+    return () => {
+      countdownTimers.forEach((timer) => window.clearTimeout(timer));
+    };
+  }, [temperature]);
 
   const visualStyle = useMemo(
     () => ({
@@ -551,6 +758,24 @@ function FireplaceApp() {
     }),
     [intensity]
   );
+
+  const visibleScreens = useMemo(() => {
+    if (!screenTransition.previous) {
+      return [{ device: screenTransition.current, className: "" }];
+    }
+
+    if (screenTransition.direction === "backward") {
+      return [
+        { device: screenTransition.current, className: "is-entering" },
+        { device: screenTransition.previous, className: "is-exiting" }
+      ];
+    }
+
+    return [
+      { device: screenTransition.previous, className: "is-exiting" },
+      { device: screenTransition.current, className: "is-entering" }
+    ];
+  }, [screenTransition.current, screenTransition.direction, screenTransition.previous]);
 
   const onPreviewPointerMove = useCallback((event) => {
     if (event.pointerType !== "mouse") {
@@ -592,13 +817,24 @@ function FireplaceApp() {
             onPointerCancel={swipe.onPointerUp}
           >
             {viewSettings.showStatusBar ? <IosStatusBar /> : null}
-            <section className="fire-panel" aria-label="Fireplace control">
-              <FireArtwork intensity={intensity} settings={fireSettings} />
-              <div className="top-vignette" />
-              <TemperatureRail temperature={temperature} />
-            </section>
+            <div className={`device-screen-stack transition-${screenTransition.direction} ${screenTransition.previous ? "is-transitioning" : ""}`}>
+              <div className="device-screen-track">
+                {visibleScreens.map((screen) => (
+                  <DeviceScreen
+                    key={`${screen.device}-${screen.className || "active"}`}
+                    device={screen.device}
+                    className={screen.className}
+                    intensity={intensity}
+                    fireSettings={fireSettings}
+                    isFireOff={isFireOff}
+                    shutdownCountdown={shutdownCountdown}
+                    temperature={temperature}
+                  />
+                ))}
+              </div>
+            </div>
 
-            <DeviceSelector />
+            <DeviceSelector activeDevice={activeDevice} />
             <BottomControl intensity={intensity} />
             {viewSettings.showHomeBar ? <HomeIndicator /> : null}
           </main>

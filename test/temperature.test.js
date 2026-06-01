@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   MAX_TEMPERATURE,
   MIN_TEMPERATURE,
+  OFF_TEMPERATURE,
   clampTemperature,
   normalizeTemperature,
   temperatureFromDrag,
@@ -11,7 +12,7 @@ import {
 } from "../src/temperature.js";
 
 test("clampTemperature keeps values inside the fireplace range", () => {
-  assert.equal(clampTemperature(12), MIN_TEMPERATURE);
+  assert.equal(clampTemperature(12), OFF_TEMPERATURE);
   assert.equal(clampTemperature(31), MAX_TEMPERATURE);
   assert.equal(clampTemperature(23), 23);
 });
@@ -23,15 +24,16 @@ test("temperatureFromDrag maps upward swipes to colder values", () => {
 
 test("temperatureFromDrag clamps repeated drags at both ends", () => {
   assert.equal(temperatureFromDrag(MAX_TEMPERATURE, 900), MAX_TEMPERATURE);
-  assert.equal(temperatureFromDrag(MIN_TEMPERATURE, -900), MIN_TEMPERATURE);
+  assert.equal(temperatureFromDrag(MIN_TEMPERATURE, -900), OFF_TEMPERATURE);
 });
 
 test("normalizeTemperature returns a zero-to-one intensity", () => {
+  assert.equal(normalizeTemperature(OFF_TEMPERATURE), 0);
   assert.equal(normalizeTemperature(MIN_TEMPERATURE), 0);
   assert.equal(normalizeTemperature(MAX_TEMPERATURE), 1);
   assert.equal(normalizeTemperature(21.5), 0.5);
 });
 
 test("temperatureScale lists labels from hottest to coldest", () => {
-  assert.deepEqual(temperatureScale(), [26, 25, 24, 23, 22, 21, 20, 19, 18, 17]);
+  assert.deepEqual(temperatureScale(), [26, 25, 24, 23, 22, 21, 20, 19, 18, 17, OFF_TEMPERATURE]);
 });
