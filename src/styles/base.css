@@ -1,0 +1,46 @@
+@import url("https://db.onlinewebfonts.com/c/dc47e430634596cb7e61ff294069edde?family=LED+Counter+7+V2");
+@import url("https://fonts.googleapis.com/css2?family=Vend+Sans:wght@400;500&display=swap");
+
+:root {
+  color-scheme: dark;
+  background: #0b0b0c;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #0b0b0c;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  color: #fff;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: #0b0b0c;
+  touch-action: none;
+}
+

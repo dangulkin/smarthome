@@ -1,0 +1,1021 @@
+{
+  "version": "2.11",
+  "children": [
+    {
+      "type": "frame",
+      "id": "i89W5K",
+      "x": 162.37367802585504,
+      "y": -178,
+      "name": "iPhone 16 & 17 Pro Max - 85",
+      "clip": true,
+      "width": 440,
+      "height": 956,
+      "fill": "#0f0f0fff",
+      "cornerRadius": 56,
+      "stroke": {
+        "align": "inside",
+        "thickness": 1
+      },
+      "layout": "none",
+      "children": [
+        {
+          "type": "group",
+          "id": "lDeQz",
+          "x": -264.86934928966156,
+          "y": -10.913162231444744,
+          "name": "R",
+          "children": [
+            {
+              "type": "rectangle",
+              "cornerRadius": 40,
+              "id": "F6M4Ge",
+              "x": 264.86934928966366,
+              "y": 10.913162231445312,
+              "name": "Rectangle 240666511",
+              "width": 440,
+              "height": 756,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "group",
+              "id": "HpR7N",
+              "x": 0,
+              "y": 251.75212154390465,
+              "name": "glow",
+              "rotation": 180,
+              "flipX": true,
+              "effect": {
+                "type": "blur",
+                "radius": 43.75
+              },
+              "children": [
+                {
+                  "type": "path",
+                  "id": "jWJ7a",
+                  "x": 326.00216178967094,
+                  "y": -370.8570245742594,
+                  "name": "Vector 234254827",
+                  "geometry": "M20.5 0l-20.5 216 151.5-94-140 359.5 140-190.5-72 304 141.5-220.5 12 167.5 99.5-257 73.5 310 14.5-277.5 76 197 14.5-188.5 141.5 197-141.5-410.5 280 192.5-222-275.5-548.5-29.5z",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "opacity": 0.800000011920929,
+                    "rotation": -189.70782089362868,
+                    "size": {
+                      "height": 0.85717557183013
+                    },
+                    "colors": [
+                      {
+                        "color": "#dfc78cff",
+                        "position": 0
+                      },
+                      {
+                        "color": "#f7a80aff",
+                        "position": 1
+                      }
+                    ],
+                    "center": {
+                      "x": 0.4585967684581099,
+                      "y": 0.4277311229034278
+                    }
+                  },
+                  "width": 713.2691650390625,
+                  "height": 438.14239501953125,
+                  "stroke": {
+                    "align": "center",
+                    "thickness": 1
+                  },
+                  "effect": {
+                    "type": "blur",
+                    "radius": 178.5
+                  }
+                },
+                {
+                  "type": "path",
+                  "id": "XmhPe",
+                  "x": 90.19747428967821,
+                  "y": -475.78523197172035,
+                  "name": "Vector 234254826",
+                  "geometry": "M20.5 0l-20.5 216 151.5-94-140 359.5 221.5-329.5-153.5 443 178.5-334.5 0 170.5 82-215 66 379 0-411 60.5 247 0-247 186 339-141.5-410.5 280 192.5-222-275.5-548.5-29.5z",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": -218.6817452874683,
+                    "size": {
+                      "width": 1.422767076959332,
+                      "height": 2.0460072423554982
+                    },
+                    "colors": [
+                      {
+                        "color": "#ff0000ff",
+                        "position": 0
+                      },
+                      {
+                        "color": "#ff9d00ff",
+                        "position": 1
+                      }
+                    ],
+                    "blendMode": "multiply",
+                    "center": {
+                      "x": 0.20670039474317448,
+                      "y": 0.18067226117128143
+                    }
+                  },
+                  "width": 1184.3863525390625,
+                  "height": 727.537353515625,
+                  "stroke": {
+                    "align": "center",
+                    "thickness": 1.6605042219161987
+                  },
+                  "effect": {
+                    "type": "blur",
+                    "radius": 94.44118022918701
+                  }
+                },
+                {
+                  "type": "path",
+                  "id": "P33gH",
+                  "x": 199.19747428967094,
+                  "y": -496.2116388320719,
+                  "name": "Vector 234254828",
+                  "rotation": 16.815788520146683,
+                  "flipY": true,
+                  "geometry": "M20.5 0l-20.5 216 151.5-94-140 359.5 221.5-329.5-153.5 443 178.5-334.5 0 170.5 82-215 66 379 0-411 60.5 247 0-247 186 339-141.5-410.5 280 192.5-222-275.5-548.5-29.5z",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "radial",
+                    "enabled": true,
+                    "rotation": -237.3711702763279,
+                    "size": {
+                      "width": 1.5709104882649234,
+                      "height": 2.493832352170194
+                    },
+                    "colors": [
+                      {
+                        "color": "#ffb700ff",
+                        "position": 0.20609378814697266
+                      },
+                      {
+                        "color": "#f8a41dff",
+                        "position": 0.38942307233810425
+                      },
+                      {
+                        "color": "#ffffffff",
+                        "position": 0.5913461446762085
+                      },
+                      {
+                        "color": "#ffa526ff",
+                        "position": 1
+                      }
+                    ],
+                    "blendMode": "multiply",
+                    "center": {
+                      "x": 0.4892577711359076,
+                      "y": 0.017647061711917544
+                    }
+                  },
+                  "width": 563.1177368164062,
+                  "height": 688.5603637695312,
+                  "stroke": {
+                    "align": "center",
+                    "thickness": 1
+                  },
+                  "effect": {
+                    "type": "blur",
+                    "radius": 56.875
+                  }
+                },
+                {
+                  "type": "ellipse",
+                  "id": "ot1vl",
+                  "x": 284.06466178967094,
+                  "y": -347.71374454496254,
+                  "name": "Ellipse 203193576",
+                  "rotation": 180,
+                  "flipX": true,
+                  "sweepAngle": -360.00001001791264,
+                  "fill": "#fce9c9ff",
+                  "width": 393.1546630859375,
+                  "height": 296.0223083496094,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  },
+                  "effect": {
+                    "type": "blur",
+                    "radius": 87.5
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oUwZL",
+          "x": 0,
+          "y": 0,
+          "name": "Status bar - iPhone",
+          "width": 440,
+          "gap": 154,
+          "padding": [
+            21,
+            24,
+            19,
+            24
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "D9loS",
+              "name": "Time",
+              "width": "fill_container",
+              "height": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 10,
+              "padding": [
+                1.5,
+                0,
+                0,
+                0
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "wO0vl",
+                  "name": "Time",
+                  "fill": "#000000ff",
+                  "content": "9:41",
+                  "lineHeight": 1.2941176470588236,
+                  "textAlign": "center",
+                  "fontFamily": "SF Pro",
+                  "fontSize": 17,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "n59AHF",
+              "name": "Levels",
+              "width": "fill_container",
+              "height": 22,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "gap": 7,
+              "padding": [
+                1,
+                1,
+                0,
+                0
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "F1RfPj",
+                  "name": "Cellular Connection",
+                  "geometry": "M19.2 1.14623c0-0.63304-0.47756-1.14623-1.06667-1.14623l-1.06666 0c-0.5891 0-1.06667 0.51318-1.06667 1.14623l0 9.93396c0 0.63304 0.47756 1.14623 1.06667 1.14622l1.06666 0c0.5891 0 1.06667-0.51318 1.06667-1.14622l0-9.93396z m-7.43411 1.29905l1.06666 0c0.5891 0 1.06667 0.5255 1.06667 1.17374l0 7.43366c0 0.64824-0.47756 1.17374-1.06667 1.17373l-1.06666 0c-0.5891 0-1.06667-0.5255-1.06667-1.17373l0-7.43366c0-0.64824 0.47756-1.17374 1.06667-1.17374z m-4.33178 2.64905l-1.06666 0c-0.5891 0-1.06667 0.53219-1.06667 1.18868l0 4.75472c0 0.65649 0.47756 1.18868 1.06667 1.18867l1.06666 0.00001c0.5891 0 1.06667-0.53219 1.06667-1.18868l0-4.75472c0-0.65649-0.47756-1.18868-1.06667-1.18868z m-5.30078 2.44529l-1.06666 0c-0.5891 0-1.06667 0.52459-1.06667 1.1717l0 2.3434c0 0.64711 0.47756 1.1717 1.06667 1.1717l1.06666 0c0.5891 0 1.06667-0.52459 1.06667-1.1717l0-2.3434c0-0.64711-0.47756-1.1717-1.06667-1.1717z",
+                  "fillRule": "evenodd",
+                  "fill": "#000000ff",
+                  "width": 19.200000762939453,
+                  "height": 12.226415634155273
+                },
+                {
+                  "type": "path",
+                  "id": "D0yK1d",
+                  "name": "Wifi",
+                  "geometry": "M8.5713 2.46628c2.48711 0.00011 4.87912 0.92219 6.68163 2.57567 0.13573 0.12765 0.35269 0.12604 0.48637-0.00361l1.29749-1.26347c0.06769-0.06576 0.10543-0.15484 0.10487-0.24752-0.00056-0.09268-0.03938-0.18133-0.10786-0.24631-4.73101-4.37472-12.19473-4.37472-16.92574 0-0.06853 0.06494-0.10742 0.15356-0.10805 0.24624-0.00063 0.09268 0.03704 0.18178 0.10468 0.24759l1.29786 1.26347c0.1336 0.12985 0.35072 0.13146 0.48638 0.00361 1.80274-1.65359 4.19502-2.57567 6.68237-2.57567z m-0.00335 4.22028c1.35732-0.00008 2.6662 0.51165 3.67232 1.43578 0.13608 0.13116 0.35045 0.12831 0.4831-0.00641l1.28728-1.3193c0.06779-0.0692 0.1054-0.16308 0.10443-0.26063-0.00098-0.09755-0.04047-0.19063-0.10963-0.25843-3.06383-2.89085-7.80857-2.89085-10.8724 0-0.06921 0.06779-0.10869 0.16092-0.1096 0.2585-0.00091 0.09758 0.03684 0.19145 0.10477 0.26056l1.28691 1.3193c0.13265 0.13472 0.34702 0.13756 0.4831 0.00641 1.00545-0.92352 2.3133-1.43521 3.66972-1.43578z m2.52442 2.79355c0.00193 0.10535-0.03514 0.20692-0.10244 0.28073l-2.17666 2.45472c-0.06381 0.07214-0.1508 0.11274-0.24157 0.11275-0.09077 0-0.17776-0.0406-0.24157-0.11275l-2.17703-2.45472c-0.06725-0.07386-0.10425-0.17546-0.10225-0.28082 0.00199-0.10535 0.0428-0.20511 0.11279-0.27573 1.3901-1.31389 3.42602-1.31389 4.81612 0 0.06994 0.07067 0.11068 0.17047 0.11261 0.27582z",
+                  "fillRule": "evenodd",
+                  "fill": "#000000ff",
+                  "width": 17.141666412353516,
+                  "height": 12.328306198120117
+                },
+                {
+                  "type": "frame",
+                  "id": "FLJ3e",
+                  "name": "Frame",
+                  "width": 27.32803726196289,
+                  "height": 13,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 1
+                  },
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 4.300000190734863,
+                      "id": "GVloC",
+                      "x": 0,
+                      "y": 0,
+                      "name": "Border",
+                      "opacity": 0.3499999940395355,
+                      "width": 25,
+                      "height": 13,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 1,
+                        "fill": "#000000ff"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "id": "kV12a",
+                      "x": 26,
+                      "y": 4.5,
+                      "name": "Cap",
+                      "opacity": 0.4000000059604645,
+                      "geometry": "M0 0l0 4c0.80473-0.33878 1.32804-1.12687 1.32804-2 0-0.87313-0.52331-1.66122-1.32804-2",
+                      "fill": "#000000ff",
+                      "width": 1.328037977218628,
+                      "height": 4.075471878051758
+                    },
+                    {
+                      "type": "rectangle",
+                      "cornerRadius": 2.5,
+                      "id": "WiXtt",
+                      "x": 2,
+                      "y": 2,
+                      "name": "Capacity",
+                      "fill": "#000000ff",
+                      "width": 21,
+                      "height": 9
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mjG4L",
+          "x": 329,
+          "y": 133,
+          "name": "23",
+          "width": 94.99928283691406,
+          "stroke": {
+            "align": "inside",
+            "thickness": 0.38513514399528503
+          },
+          "layout": "vertical",
+          "gap": 40,
+          "alignItems": "end",
+          "children": [
+            {
+              "type": "group",
+              "id": "zVacK",
+              "name": "temp",
+              "opacity": 0.4000000059604645,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "W5xER",
+                  "x": 0,
+                  "y": 10.6082763671875,
+                  "name": "26",
+                  "fill": "#ffffffff",
+                  "content": "26",
+                  "lineHeight": 1,
+                  "fontFamily": "Doto",
+                  "fontSize": 28,
+                  "fontWeight": "700",
+                  "letterSpacing": -1.4000000000000001
+                },
+                {
+                  "type": "group",
+                  "id": "J6yjo",
+                  "x": 30.648502349853516,
+                  "y": 0,
+                  "name": "gradus",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "Igbb4",
+                      "x": 1.351318359375,
+                      "y": 10.59130859375,
+                      "name": "mask",
+                      "width": 15.405405044555664,
+                      "height": 14.25,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.19256757199764252
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "GT1Uz",
+                      "x": 0,
+                      "y": 0,
+                      "name": "º",
+                      "fill": "#ffffffff",
+                      "content": "º",
+                      "lineHeight": 1.6462490899222237,
+                      "fontFamily": "Doto",
+                      "fontSize": 28,
+                      "fontWeight": "700",
+                      "letterSpacing": -1.4000000000000001
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "A7h1Oi",
+              "name": "temp",
+              "opacity": 0.4000000059604645,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "pttTu",
+                  "x": 0,
+                  "y": 13.790698051830987,
+                  "name": "25",
+                  "fill": "#ffffffff",
+                  "content": "25",
+                  "lineHeight": 1,
+                  "fontFamily": "Doto",
+                  "fontSize": 36.400001525878906,
+                  "fontWeight": "700",
+                  "letterSpacing": -1.8200000762939454
+                },
+                {
+                  "type": "group",
+                  "id": "yZNfS",
+                  "x": 39.842900109288166,
+                  "y": 0,
+                  "name": "gradus",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "subYi",
+                      "x": 1.7569202184677124,
+                      "y": 13.768603324890137,
+                      "name": "mask",
+                      "width": 20.027027130126953,
+                      "height": 18.524999618530273,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.2503378689289093
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "pZYfe",
+                      "x": 0,
+                      "y": 0,
+                      "name": "º",
+                      "fill": "#ffffffff",
+                      "content": "º",
+                      "lineHeight": 1.6462490942714358,
+                      "fontFamily": "Doto",
+                      "fontSize": 36.400001525878906,
+                      "fontWeight": "700",
+                      "letterSpacing": -1.8200000762939454
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "bxEOF",
+              "name": "temp",
+              "opacity": 0.4000000059604645,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "EtuM9",
+                  "x": 0,
+                  "y": 19.094335937501455,
+                  "name": "24",
+                  "fill": "#ffffffff",
+                  "content": "24",
+                  "lineHeight": 1,
+                  "fontFamily": "Doto",
+                  "fontSize": 50.39999771118164,
+                  "fontWeight": "700",
+                  "letterSpacing": -2.5199998855590824
+                },
+                {
+                  "type": "group",
+                  "id": "oWEiG",
+                  "x": 55.337056732183555,
+                  "y": 0,
+                  "name": "gradus",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "L1Xwt",
+                      "x": 2.4328125000029104,
+                      "y": 19.064355468748545,
+                      "name": "mask",
+                      "width": 27.72972869873047,
+                      "height": 25.649999618530273,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.34662163257598877
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "p8NPzJ",
+                      "x": 0,
+                      "y": 0,
+                      "name": "º",
+                      "fill": "#ffffffff",
+                      "content": "º",
+                      "lineHeight": 1.6462491798211285,
+                      "fontFamily": "Doto",
+                      "fontSize": 50.39999771118164,
+                      "fontWeight": "700",
+                      "letterSpacing": -2.5199998855590824
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "CgegZ",
+              "name": "temp",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "MkjSU",
+                  "x": 0,
+                  "y": 21.21630859375,
+                  "name": "23",
+                  "fill": "#ffffffff",
+                  "content": "23",
+                  "lineHeight": 1,
+                  "fontFamily": "Doto",
+                  "fontSize": 56,
+                  "fontWeight": "700",
+                  "letterSpacing": -2.8000000000000003
+                },
+                {
+                  "type": "group",
+                  "id": "SklCg",
+                  "x": 61.48583984375,
+                  "y": 0,
+                  "name": "gradus",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "r3Q1SJ",
+                      "x": 2.702861064200988,
+                      "y": 21.18252480996307,
+                      "name": "mask",
+                      "width": 30.810810089111328,
+                      "height": 28.5,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.38513514399528503
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "T1sbcO",
+                      "x": 0,
+                      "y": 0,
+                      "name": "º",
+                      "fill": "#ffffffff",
+                      "content": "º",
+                      "lineHeight": 1.6462490899222237,
+                      "fontFamily": "Doto",
+                      "fontSize": 56,
+                      "fontWeight": "700",
+                      "letterSpacing": -2.8000000000000003
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "UdQdK",
+              "name": "temp",
+              "opacity": 0.4000000059604645,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "HS9Aw",
+                  "x": 0,
+                  "y": 19.094335937501455,
+                  "name": "21",
+                  "fill": "#ffffffff",
+                  "content": "21",
+                  "lineHeight": 1,
+                  "fontFamily": "Doto",
+                  "fontSize": 50.39999771118164,
+                  "fontWeight": "700",
+                  "letterSpacing": -2.5199998855590824
+                },
+                {
+                  "type": "group",
+                  "id": "F8sJ4N",
+                  "x": 48.13705673217919,
+                  "y": 0,
+                  "name": "gradus",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "N48Os",
+                      "x": 2.4328125000029104,
+                      "y": 19.064355468748545,
+                      "name": "mask",
+                      "width": 27.72972869873047,
+                      "height": 25.649999618530273,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.34662163257598877
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "g1P3y",
+                      "x": 0,
+                      "y": 0,
+                      "name": "º",
+                      "fill": "#ffffffff",
+                      "content": "º",
+                      "lineHeight": 1.6462491798211285,
+                      "fontFamily": "Doto",
+                      "fontSize": 50.39999771118164,
+                      "fontWeight": "700",
+                      "letterSpacing": -2.5199998855590824
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "b2MoEw",
+              "name": "temp",
+              "opacity": 0.4000000059604645,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qLZKn",
+                  "x": 0,
+                  "y": 13.790990828725626,
+                  "name": "20",
+                  "fill": "#ffffffff",
+                  "content": "20",
+                  "lineHeight": 1,
+                  "fontFamily": "Doto",
+                  "fontSize": 36.400001525878906,
+                  "fontWeight": "700",
+                  "letterSpacing": -1.8200000762939454
+                },
+                {
+                  "type": "group",
+                  "id": "fGHZw",
+                  "x": 38.01540987491899,
+                  "y": 0,
+                  "name": "gradus",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "sOKH1",
+                      "x": 1.7569202184677124,
+                      "y": 13.768896102905273,
+                      "name": "mask",
+                      "width": 20.027027130126953,
+                      "height": 18.524999618530273,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.2503378689289093
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "oZLSg",
+                      "x": 0,
+                      "y": 0,
+                      "name": "º",
+                      "fill": "#ffffffff",
+                      "content": "º",
+                      "lineHeight": 1.6462490942714358,
+                      "fontFamily": "Doto",
+                      "fontSize": 36.400001525878906,
+                      "fontWeight": "700",
+                      "letterSpacing": -1.8200000762939454
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "group",
+              "id": "Y6t05G",
+              "name": "temp",
+              "opacity": 0.4000000059604645,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "vl3yv",
+                  "x": 0,
+                  "y": 10.6082763671875,
+                  "name": "19",
+                  "fill": "#ffffffff",
+                  "content": "19",
+                  "lineHeight": 1,
+                  "fontFamily": "Doto",
+                  "fontSize": 28,
+                  "fontWeight": "700",
+                  "letterSpacing": -1.4000000000000001
+                },
+                {
+                  "type": "group",
+                  "id": "uLyLv",
+                  "x": 29.742740631103516,
+                  "y": 0,
+                  "name": "gradus",
+                  "children": [
+                    {
+                      "type": "rectangle",
+                      "id": "kONwA",
+                      "x": 1.351318359375,
+                      "y": 10.59130859375,
+                      "name": "mask",
+                      "width": 15.405405044555664,
+                      "height": 14.25,
+                      "stroke": {
+                        "align": "inside",
+                        "thickness": 0.19256757199764252
+                      }
+                    },
+                    {
+                      "type": "text",
+                      "id": "ixnfm",
+                      "x": 0,
+                      "y": 0,
+                      "name": "º",
+                      "fill": "#ffffffff",
+                      "content": "º",
+                      "lineHeight": 1.6462490899222237,
+                      "fontFamily": "Doto",
+                      "fontSize": 28,
+                      "fontWeight": "700",
+                      "letterSpacing": -1.4000000000000001
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "RF4uO",
+          "x": 0,
+          "y": 756,
+          "name": "Frame 2136139630",
+          "width": 450,
+          "height": 82,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1
+          },
+          "gap": 32,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "rectangle",
+              "id": "rqQuJ",
+              "layoutPosition": "absolute",
+              "x": 11,
+              "y": 0,
+              "name": "mask",
+              "width": 439,
+              "height": 82,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              }
+            },
+            {
+              "type": "text",
+              "id": "D7jfAl",
+              "name": "iron",
+              "opacity": 0.30000001192092896,
+              "fill": "#ffffffff",
+              "content": "Chair",
+              "textAlign": "center",
+              "fontFamily": "Vend Sans",
+              "fontSize": 16,
+              "fontWeight": "300"
+            },
+            {
+              "type": "text",
+              "id": "mqfGN",
+              "name": "door camera",
+              "opacity": 0.6000000238418579,
+              "fill": "#ffffffff",
+              "content": "Lamp",
+              "textAlign": "center",
+              "fontFamily": "Vend Sans",
+              "fontSize": 20,
+              "fontWeight": "300"
+            },
+            {
+              "type": "text",
+              "id": "D6QNE",
+              "name": "Fireplace",
+              "fill": "#ffffffff",
+              "textGrowth": "fixed-width",
+              "width": 115,
+              "content": "Fireplace",
+              "textAlign": "center",
+              "fontFamily": "Vend Sans",
+              "fontSize": 26,
+              "fontWeight": "500"
+            },
+            {
+              "type": "text",
+              "id": "tWh0J",
+              "name": "Teapot",
+              "opacity": 0.6000000238418579,
+              "fill": "#ffffffff",
+              "content": "Teapot",
+              "textAlign": "center",
+              "fontFamily": "Vend Sans",
+              "fontSize": 20,
+              "fontWeight": "300"
+            },
+            {
+              "type": "text",
+              "id": "WDOkA",
+              "name": "Chair",
+              "opacity": 0.30000001192092896,
+              "fill": "#ffffffff",
+              "content": "Chair",
+              "textAlign": "center",
+              "fontFamily": "Vend Sans",
+              "fontSize": 16,
+              "fontWeight": "300"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Uz5tM",
+          "x": 1,
+          "y": 838,
+          "name": "dock",
+          "width": 440,
+          "height": 146,
+          "fill": [
+            {
+              "type": "gradient",
+              "gradientType": "linear",
+              "enabled": false,
+              "rotation": -180,
+              "size": {
+                "height": 0.9999999999999999
+              },
+              "colors": [
+                {
+                  "color": "#fdd989ff",
+                  "position": 0
+                },
+                {
+                  "color": "#fd8876ff",
+                  "position": 0.4759615361690521
+                }
+              ],
+              "center": {
+                "y": 0.49999999999999994
+              }
+            },
+            "#ffffff0f"
+          ],
+          "cornerRadius": 40,
+          "stroke": {
+            "align": "inside",
+            "thickness": 1,
+            "fill": "#ffffff0d"
+          },
+          "gap": 97,
+          "padding": [
+            24,
+            0,
+            0,
+            0
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "bZNe9",
+              "name": "button left",
+              "width": 56,
+              "height": 56,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "KayFv",
+                  "x": 13,
+                  "y": -5,
+                  "name": "=",
+                  "fill": "#ffffffff",
+                  "textGrowth": "fixed-width",
+                  "width": 35.619049072265625,
+                  "content": "=",
+                  "textAlign": "center",
+                  "fontFamily": "Doto",
+                  "fontSize": 56,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "ej6ju",
+              "name": "Frame 2136139620",
+              "width": 56,
+              "height": 56,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "vertical",
+              "gap": 10,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "path",
+                  "id": "fwkpZ",
+                  "name": "Vector",
+                  "geometry": "M0.33797 6.87c0.57 0.57 2.1 0.92 3.66 0.92 1.56 0 3.09-0.35 3.66-0.92 1.44-1.42-2.04-6.86-3.66-6.87-1.62 0.01-5.09 5.45-3.66 6.87z",
+                  "fillRule": "evenodd",
+                  "fill": "#ffffffff",
+                  "width": 48.77110290527344,
+                  "height": 47.494529724121094,
+                  "stroke": {
+                    "align": "inside",
+                    "thickness": 2.4387435913085938
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "oMrap",
+              "name": "button right",
+              "width": 55,
+              "height": 56,
+              "stroke": {
+                "align": "inside",
+                "thickness": 1
+              },
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "qf8S9",
+                  "x": 9,
+                  "y": -15,
+                  "name": "+",
+                  "fill": "#ffffffff",
+                  "content": "+",
+                  "textAlign": "center",
+                  "fontFamily": "Doto",
+                  "fontSize": 72,
+                  "fontWeight": "normal"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,263 @@
+.fire-settings {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  width: 360px;
+  overflow: hidden;
+  border-left: 1px solid rgb(255 255 255 / 0.08);
+  background: #1a1a1d;
+  box-shadow: -18px 0 56px rgb(0 0 0 / 0.28);
+  color: #fff;
+  font-family: "Vend Sans", Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  touch-action: auto;
+}
+
+.settings-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  background: #1a1a1d;
+}
+
+.settings-header h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+
+.settings-header p {
+  margin: 6px 0 0;
+  color: rgb(255 255 255 / 0.52);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.settings-reset {
+  height: 30px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.settings-scroll {
+  min-height: 0;
+  overflow: auto;
+  padding: 0 22px 22px;
+}
+
+.settings-section {
+  padding: 18px 0;
+  border-top: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.settings-section:first-child {
+  border-top: 0;
+}
+
+.settings-section h2 {
+  margin: 0 0 14px;
+  color: rgb(255 255 255 / 0.72);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.settings-field,
+.settings-color-field {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.settings-field:first-of-type,
+.settings-color-field:first-of-type {
+  margin-top: 0;
+}
+
+.settings-label {
+  color: rgb(255 255 255 / 0.76);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.settings-layer-row {
+  display: grid;
+  grid-template-columns: 18px 1fr 34px;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  margin-top: 10px;
+}
+
+.settings-layer-row:first-of-type {
+  margin-top: 0;
+}
+
+.settings-layer-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 50%;
+}
+
+.settings-layer-swatch.neutral {
+  background: rgb(255 255 255 / 0.34);
+}
+
+.settings-layer-name {
+  color: rgb(255 255 255 / 0.76);
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.settings-eye-button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.06);
+  color: rgb(255 255 255 / 0.86);
+  cursor: pointer;
+}
+
+.settings-eye-button[aria-pressed="false"] {
+  color: rgb(255 255 255 / 0.36);
+}
+
+.settings-eye-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.settings-eye-icon circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.settings-eye-slash {
+  stroke-width: 2.2;
+}
+
+.settings-row {
+  display: grid;
+  grid-template-columns: 1fr 74px 26px;
+  align-items: center;
+  gap: 10px;
+}
+
+.settings-range {
+  width: 100%;
+  border: 0;
+  appearance: none;
+  height: 18px;
+  background: transparent;
+  accent-color: #ff7b09;
+}
+
+.settings-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff7b09 0 var(--range-progress), rgb(255 255 255 / 0.28) var(--range-progress) 100%);
+}
+
+.settings-range::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: #ff7b09;
+}
+
+.settings-range::-moz-range-track {
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.28);
+}
+
+.settings-range::-moz-range-progress {
+  height: 6px;
+  border: 0;
+  border-radius: 999px;
+  background: #ff7b09;
+}
+
+.settings-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: #ff7b09;
+}
+
+.settings-number,
+.settings-hex,
+.settings-select {
+  width: 100%;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.06);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.settings-number {
+  padding: 0 8px;
+  text-align: right;
+}
+
+.settings-suffix {
+  color: rgb(255 255 255 / 0.46);
+  font-size: 12px;
+}
+
+.settings-color-row {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 10px;
+}
+
+.settings-color {
+  width: 44px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.settings-hex,
+.settings-select {
+  padding: 0 10px;
+}
